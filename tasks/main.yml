@@ -1,0 +1,38 @@
+---
+  # Installs and configures git for various OSes
+
+##### Windows #####
+
+- name: Install git on Windows
+  win_chocolatey:
+    name: git
+    state: latest
+    when: ansible_os_family == "Windows"
+
+- name: configure git on Windows
+  win_shell: git config --global user.email "{{ git_user_email }}"
+  win_shell: git config --global user.name "{{ git_user_name }}"
+  when: ansible_os_family == "Windows"
+
+##### Cemtos / RHEL 7 #####
+
+- name: Install git on EL 7
+  yum:
+    name: git
+    state: latest
+    when: ansible_os_family == "RedHat"
+
+##### Debian #####
+
+- name: Install git on Debian
+  apt:
+    name: git
+    state: latest
+    when: ansible_os_family == "Debian"
+
+##### Configure Linux #####
+
+- name: configure git on EL 7
+  shell: git config --global user.email "{{ git_user_email }}"
+  shell: git config --global user.name "{{ git_user_name }}"
+  when: ansible_os_family == "RedHat" or "Debian"
