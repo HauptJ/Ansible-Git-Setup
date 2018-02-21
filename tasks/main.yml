@@ -7,32 +7,44 @@
   win_chocolatey:
     name: git
     state: latest
-    when: ansible_os_family == "Windows"
+  when: ansible_os_family == "Windows"
 
-- name: configure git on Windows
+- name: configure git user email {{ git_user_email }} on Windows
   win_shell: git config --global user.email "{{ git_user_email }}"
+  when: ansible_os_family == "Windows"
+
+- name: configure git user name {{ git_user_name }} on Windows
   win_shell: git config --global user.name "{{ git_user_name }}"
   when: ansible_os_family == "Windows"
 
-##### Cemtos / RHEL 7 #####
+##### Linux #####
 
+### Cemtos / RHEL 7 ###
 - name: Install git on EL 7
   yum:
     name: git
     state: latest
-    when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat"
 
-##### Debian #####
+### Fedora w/ DNF ###
+- name: Install git on Fedora DNF
+  dnf:
+    name: git
+    state: latest
+  when: ansible_distribution == "Fedora"
 
+### Debian ###
 - name: Install git on Debian
   apt:
     name: git
     state: latest
-    when: ansible_os_family == "Debian"
+    update_cache: yes
+  when: ansible_os_family == "Debian"
 
-##### Configure Linux #####
-
-- name: configure git on EL 7
+- name: configure git user email {{ git_user_email }} on Linux
   shell: git config --global user.email "{{ git_user_email }}"
+  when: ansible_os_family != "Windows"
+
+- name; configure git user name {{ git_user_name }} on Linux
   shell: git config --global user.name "{{ git_user_name }}"
-  when: ansible_os_family == "RedHat" or "Debian"
+  when: ansible_os_family != "Windows"
