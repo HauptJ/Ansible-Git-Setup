@@ -3,48 +3,32 @@
 
 ##### Windows #####
 
-- name: Install git on Windows
-  win_chocolatey:
-    name: git
-    state: latest
+- name: Install and configure git on Windows
+  block:
+    - name: Install git on Windows
+      win_chocolatey:
+        name: git
+        state: latest
+
+    - name: configure git user email {{ git_user_email }} on Windows
+      win_shell: git config --global user.email "{{ git_user_email }}"
+
+    - name: configure git user name {{ git_user_name }} on Windows
+      win_shell: git config --global user.name "{{ git_user_name }}"
   when: ansible_os_family == "Windows"
 
-- name: configure git user email {{ git_user_email }} on Windows
-  win_shell: git config --global user.email "{{ git_user_email }}"
-  when: ansible_os_family == "Windows"
+##### Not Windows #####
 
-- name: configure git user name {{ git_user_name }} on Windows
-  win_shell: git config --global user.name "{{ git_user_name }}"
-  when: ansible_os_family == "Windows"
+- name: Install and confiugre git on Unix like OS
+  block:
+    - name: Install git on Unix like OS
+      package:
+        name: git
+        state: latest
 
-##### Linux #####
+    - name: configure git user email {{ git_user_email }} on Unix like OS
+      shell: git config --global user.email "{{ git_user_email }}"
 
-### Cemtos / RHEL 7 ###
-- name: Install git on EL 7
-  yum:
-    name: git
-    state: latest
-  when: ansible_os_family == "RedHat"
-
-### Fedora w/ DNF ###
-- name: Install git on Fedora DNF
-  dnf:
-    name: git
-    state: latest
-  when: ansible_distribution == "Fedora"
-
-### Debian ###
-- name: Install git on Debian
-  apt:
-    name: git
-    state: latest
-    update_cache: yes
-  when: ansible_os_family == "Debian"
-
-- name: configure git user email {{ git_user_email }} on Linux
-  shell: git config --global user.email "{{ git_user_email }}"
-  when: ansible_os_family != "Windows"
-
-- name: configure git user name {{ git_user_name }} on Linux
-  shell: git config --global user.name "{{ git_user_name }}"
+    - name: configure git user name {{ git_user_name }} on Unix like OS
+      shell: git config --global user.name "{{ git_user_name }}"
   when: ansible_os_family != "Windows"
