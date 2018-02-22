@@ -3,16 +3,12 @@
 - hosts: all
 
   pre_tasks:
-    - name: Ensure build dependencies are installed (RedHat)
+    - name: Ensure git is installed (RedHat)
       package:
         name: "{{ item }}"
         state: present
       with_items:
-        - "@Development tools"
-        - tar
-        - unzip
-        - sudo
-        - which
+        - git
       when: ansible_os_family == 'RedHat'
 
     - name: Ensure build dependencies are installed (Debian)
@@ -20,10 +16,7 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - build-essential
-        - unzip
-        - tar
-        - sudo
+        - git
       when: ansible_os_family == 'Debian'
 
   roles:
