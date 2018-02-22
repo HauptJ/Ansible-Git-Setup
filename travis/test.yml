@@ -5,6 +5,6 @@
   roles:
     - git_role
 
-  post_tasks:
-    - name: Test git clone
-      command: git clone https://github.com/DanielnetoDotCom/YouPHPTube.git
+  #post_tasks:
+  #  - name: Test git clone
+  #    command: git clone https://github.com/DanielnetoDotCom/YouPHPTube.git
