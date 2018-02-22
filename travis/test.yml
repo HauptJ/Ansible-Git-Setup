@@ -1,0 +1,10 @@
+---
+  # Modified from source: https://github.com/drhelius/travis-ansible-demo/blob/master/travis/test.yml
+- hosts: all
+
+  roles:
+    - git_role
+
+  #post_tasks:
+  #  - name: Test git clone
+  #    command: git clone https://github.com/DanielnetoDotCom/YouPHPTube.git
