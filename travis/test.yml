@@ -2,23 +2,6 @@
   # Modified from source: https://github.com/drhelius/travis-ansible-demo/blob/master/travis/test.yml
 - hosts: all
 
-  pre_tasks:
-    - name: Ensure git is installed (RedHat)
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - git
-      when: ansible_os_family == 'RedHat'
-
-    - name: Ensure build dependencies are installed (Debian)
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - git
-      when: ansible_os_family == 'Debian'
-
   roles:
     - git_role
 
