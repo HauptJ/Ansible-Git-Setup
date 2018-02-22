@@ -1,0 +1,34 @@
+---
+  # Installs and configures git for various OSes
+
+##### Windows #####
+
+- name: Install and configure git on Windows
+  block:
+    - name: Install git on Windows
+      win_chocolatey:
+        name: git
+        state: latest
+
+    - name: configure git user email {{ git_user_email }} on Windows
+      win_shell: git config --global user.email "{{ git_user_email }}"
+
+    - name: configure git user name {{ git_user_name }} on Windows
+      win_shell: git config --global user.name "{{ git_user_name }}"
+  when: ansible_os_family == "Windows"
+
+##### Not Windows #####
+
+- name: Install and confiugre git on Unix like OS
+  block:
+    - name: Install git on Unix like OS
+      package:
+        name: git
+        state: latest
+
+    - name: configure git user email {{ git_user_email }} on Unix like OS
+      shell: git config --global user.email "{{ git_user_email }}"
+
+    - name: configure git user name {{ git_user_name }} on Unix like OS
+      shell: git config --global user.name "{{ git_user_name }}"
+  when: ansible_os_family != "Windows"
