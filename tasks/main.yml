@@ -28,7 +28,10 @@
 
     - name: configure git user email {{ git_user_email }} on Unix like OS
       shell: git config --global user.email "{{ git_user_email }}"
+      become: no
 
     - name: configure git user name {{ git_user_name }} on Unix like OS
       shell: git config --global user.name "{{ git_user_name }}"
+      become: no
+      
   when: ansible_os_family != "Windows"
